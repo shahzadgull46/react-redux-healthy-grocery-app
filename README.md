@@ -1,302 +1,186 @@
-   🛒 React Router & Advanced Hooks Guide
-A comprehensive learning project covering React Router DOM, useEffect patterns, dynamic routing, and best practices for building modern single-page applications.
+   React Class Components Deep Dive
+A comprehensive learning project covering React class components, lifecycle methods, state management, and API integration.
 
+Topics Covered:
+✔ Class Components
+✔ Props & Constructor
+✔ super(props) Explained
+✔ State Variables
+✔ this.setState()
+✔ Render Cycle
+✔ componentDidMount()
+✔ componentDidUpdate()
+✔ componentWillUnmount()
+✔ API Calls in Class Components
+✔ Reconciliation Algorithm
+✔ Functional vs Class Components
+✔ useEffect Cleanup Logic
+✔ SPA Cleanup Problems
+✔ Interval Memory Leak Prevention
+✔ React Lifecycle Flow
 
+React Class Component Deep Dive
 
-## Home Page
+This repository documents my journey of learning React internals from fundamentals to advanced component behavior.
 
-## ProductInfo Shimmer Loading
+The goal of this repo is not just to learn React syntax, but to deeply understand:
 
-## Contact Page
+ - How React renders components
+ - How class components work internally
+ - Why lifecycle methods exist
+ - How state updates trigger re-renders
+ - Difference between functional and class components
+ - Cleanup handling in Single Page Applications
+ - Real-world React optimization concepts
 
-## Product Info Page
-
-All pics are in assests. 
-
-   📑 Table of Contents
-Overview
-Key Concepts
- - useEffect Deep Dive
- - useState Best Practices
- - React Router Setup
- - Nested Routes & Outlet
- - Navigation & Link
- - Dynamic Routes & useParams
- - Shimmer UI
- - Installation
- - Project Structure
- - API Reference
- - Routing Types Explained
- - License
-Overview
-This project demonstrates how to build a Single Page Application (SPA) using React Router DOM v6 with dynamic product routing, nested layouts, and advanced useEffect patterns. It includes a grocery/product listing app that fetches data from the Open Food Facts API.
-Features:
-✅ Client-side routing without page refreshes
-✅ Nested layout routes (Header + dynamic content)
-✅ Dynamic product detail pages with URL parameters
-✅ Error handling with custom error pages
-✅ Shimmer loading UI for better UX
-✅ API integration with barcode-based product lookup
-Key Concepts
- 1. useEffect Deep Dive
-useEffect is imported as a named import from React and accepts two arguments:
-Callback function (required)
-Dependency array (optional)
+📚 What I Learned
+1. Class Component Basics
+Syntax: Create a class extending React.Component with a render() method returning JSX
+Props: Passed from parent to child, accessed via this.props
+Constructor & super(props): Required to initialize the component and make this.props available
 jsx
 Copy
-import { useEffect } from "react";
-
-useEffect(() => {
-  console.log("Use effect called");
-}, []);
-🔥 Interview-Ready: Three Cases of useEffect Behavior
-Table
-Case	Dependency Array	Behavior
-Case 1	No array	Runs after every render
-Case 2	Empty []	Runs only once on initial render
-Case 3	[state]	Runs when dependency changes
-jsx
-Copy
-// Case 1: No dependency array → runs on every render
-useEffect(() => {
-  console.log("Runs every time component renders");
-});
-
-// Case 2: Empty array → runs once on mount
-useEffect(() => {
-  console.log("Runs only on initial render");
-}, []);
-
-// Case 3: With dependency → runs when btnNameReact changes
-useEffect(() => {
-  console.log("Runs when button state updates");
-}, [btnNameReact]);
- 2. useState Best Practices
-⚠️ Critical Rules for useState:
-Always inside component — Never create state variables outside the component
-Top-level only — Call useState at the top of the component, not inside conditions
-No conditional hooks — Never use inside if/else, loops, or nested functions
-Consistent order — React relies on the call order; breaking it causes inconsistency
-jsx
-Copy
-// ✅ CORRECT
-const Header = () => {
-  const [btnName, setBtnName] = useState("Login");  // Top level
-  const [count, setCount] = useState(0);            // Top level
-  // ...
-};
-
-// ❌ WRONG - Never do this!
-const Header = () => {
-  if (condition) {
-    const [state, setState] = useState();  // ❌ Inside condition!
+class AboutClass extends React.Component {
+  constructor(props) {
+    super(props); // Must call before using `this`
   }
-};
-3. React Router Setup
-Installation
-bash
-Copy
-# Fix any audit issues
-npm install react-router-dom
 
-# See the details
-npm audit
-
-# Fix what can be fixed automatically
-npm audit fix
-Basic Router Configuration
-jsx
-Copy
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-const appRouter = createBrowserRouter([
-  {
-    path: "/",
-    element: <AppLayout />,
-    errorElement: <Error />,  // Custom error page
-  },
-  {
-    path: "/about",
-    element: <About />,
-  },
-]);
-
-# Render with RouterProvider
-root.render(<RouterProvider router={appRouter} />);
-Error Handling with useRouteError
-jsx
-Copy
-import { useRouteError } from "react-router-dom";
-
-const Error = () => {
-  const error = useRouteError();
-  console.log(error); # Inspect the error object
-
-  return (
-    <div>
-      <h1>Oops! Something went wrong</h1>
-      <h3>{error.data}</h3>
-      <h4>{error.statusText}</h4>
-    </div>
-  );
-};
-4. Nested Routes & Outlet
-Create persistent layouts where the header remains constant while content changes.
-jsx
-Copy
-import { Outlet } from "react-router-dom";
-
-const AppLayout = () => {
-  return (
-    <div className="app">
-      <Header />      # Persistent across all pages
-      <Outlet />      # Dynamic content injection point
-    </div>
-  );
-};
-Router with Children
-jsx
-Copy
-const appRouter = createBrowserRouter([
-  {
-    path: "/",
-    element: <AppLayout />,
-    children: [
-      {
-        path: "/",
-        element: <Body />,        # Home page
-      },
-      {
-        path: "/about",
-        element: <About />,       # About page
-      },
-      {
-        path: "/contact",
-        element: <Contact />,     # Contact page
-      },
-    ],
-    errorElement: <Error />,
-  },
-]);
-💡 Key Point: <Outlet /> is replaced by the matched child component. No outlet element remains in the DOM.
-5. Navigation & Link
-❌ Don't use anchor tags:
-jsx
-Copy
-// ❌ BAD - Causes full page refresh
-<a href="/contact">Contact</a>
-✅ Use Link component:
-jsx
-Copy
-import { Link } from "react-router-dom";
-
-// ✅ GOOD - Client-side navigation, no refresh
-<li>
-  <Link to="/about">About Us</Link>
-</li>
-Why Link over <a>?
-No full page reload
-Only the necessary component re-renders
-Header and static elements persist
-This is what makes React a Single Page Application (SPA)
-Note: Link ultimately renders an anchor tag in the DOM, but intercepts clicks to handle navigation via JavaScript.
-6. Dynamic Routes & useParams
-Build product detail pages with URL parameters.
-Step 1: Make Product Cards Clickable
-jsx
-Copy
-import { Link } from "react-router-dom";
-
-const Product = ({ groData }) => {
-  const { product_name, brands, image_front_small_url, code } = groData;
-
-  return (
-    <Link 
-      to={`/product/${code}`} 
-      style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
-    >
-      <div className="product">
-        <img className="product-img" src={image_front_small_url} alt="" />
-        <span>{product_name}</span>
-        <p>{brands}</p>
-        <button className="buttons">Add to cart</button>
+  render() {
+    const { name, address } = this.props; // Destructuring props
+    return (
+      <div>
+        <h3>{name}</h3>
+        <h3>Address: {address}</h3>
       </div>
-    </Link>
-  );
-};
-Step 2: Configure Dynamic Route
-jsx
-Copy
-{
-  path: "/product/:barcode",    # :barcode is a URL parameter
-  element: <ProductInfo />,
-}
-Step 3: Extract Parameter & Fetch Data
-jsx
-Copy
-import { useParams } from "react-router-dom";
-
-const ProductInfo = () => {
-  const { barcode } = useParams();  # Extract barcode from URL
-  const [productInfo, setProductInfo] = useState();
-
-  const fetchData = async () => {
-    const data = await fetch(
-      `https://world.openfoodfacts.org/api/v2/product/${barcode}`
     );
-    const json = await data.json();
-    setProductInfo(json.product);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);  # Fetch once on mount
-
-  if (!productInfo) return <ProductInfoShimmer />;
-
-  const { product_name, quantity, brands, packaging, categories, countries } = productInfo;
-
-  return (
-    <div className="product-info">
-      <img src={productInfo.image_front_small_url} alt="" />
-      <h1>{product_name}</h1>
-      <p>Barcode: {barcode}</p>
-      <p>Quantity: {quantity}</p>
-      <p>Brands: {brands}</p>
-      <p>Packaging: {packaging}</p>
-      <p>Categories: {categories}</p>
-      <p>Countries: {countries}</p>
-    </div>
-  );
-};
-7. Shimmer UI
-Improve perceived performance with skeleton loading screens.
+  }
+}
+2. State Management in Class Components
+State is an object containing all state variables (unlike functional components with multiple useState hooks)
+Initialized in the constructor — the best place to receive props and create state
 jsx
 Copy
-import './ProductInfoShimmer.css';
+constructor(props) {
+  super(props);
+  this.state = {
+    count: 0,
+    count2: 2,
+    userInfo: { name: "Dummy", location: "default" }
+  };
+}
+Never update state directly: this.state.count = this.state.count + 1 ❌
+Always use this.setState(): This triggers re-rendering via React's Reconciliation Algorithm
+jsx
+Copy
+<button onClick={() => {
+  this.setState({
+    count: this.state.count + 1,
+    count2: this.state.count2 + 1
+  });
+}}>
+  Increase Count
+</button>
+Key Insight: React only updates the specific state variables you pass to setState(), leaving others untouched.
+3. Component Lifecycle (Mounting Phase)
+Understanding the render cycle is crucial for building scalable React applications.
+Execution Flow (Single Child)
+plain
+Copy
+Parent Constructor → Parent Render → Child Constructor → Child Render → Child componentDidMount → Parent componentDidMount
+Execution Flow (Multiple Children - Batching)
+plain
+Copy
+Parent Constructor → Parent Render → 
+  Child 1 Constructor → Child 1 Render → 
+  Child 2 Constructor → Child 2 Render → 
+  Child 1 componentDidMount → Child 2 componentDidMount → 
+Parent componentDidMount
+React batches child renders before triggering componentDidMount() for efficiency.
+4. Lifecycle Methods Deep Dive
+Table
+Method	When It Runs	Use Case
+constructor()	Component instance created	Initialize state, bind methods
+render()	Every time state/props change	Return JSX UI
+componentDidMount()	After first render completes	API calls, subscriptions, timers
+componentDidUpdate(prevProps, prevState)	After every subsequent re-render	Respond to prop/state changes
+componentWillUnmount()	Before component is removed from DOM	Cleanup — timers, subscriptions, event listeners
+API Integration Pattern
+jsx
+Copy
+async componentDidMount() {
+  const data = await fetch("https://api.github.com/users/shahzadgull46");
+  const json = await data.json();
 
-const ProductInfoShimmer = () => {
-  return (
-    <div className="shimmer-wrapper">
-      <div className="shimmer-image-box">
-        <div className="shimmer-img"></div>
-      </div>
-      <div className="shimmer-details">
-        <div className="shimmer-title"></div>
-        <div className="shimmer-row"></div>
-        <div className="shimmer-row"></div>
-        <div className="shimmer-row"></div>
-        <div className="shimmer-row"></div>
-        <div className="shimmer-row"></div>
-        <div className="shimmer-row"></div>
-        <div className="shimmer-row"></div>
-      </div>
-    </div>
-  );
-};
+  this.setState({
+    userInfo: json
+  });
+}
+Why componentDidMount for API calls?
+Render page immediately with dummy/loading data
+Fetch data in the background
+setState() triggers re-render with real data
+Better UX — no waiting for API before showing UI
+5. The Cleanup Problem (Why componentWillUnmount Matters)
+In Single Page Applications (SPAs), components don't truly "die" when you navigate away — they unmount. Failing to clean up leads to memory leaks and performance issues.
+The Problem
+jsx
+Copy
+componentDidMount() {
+  setInterval(() => {
+    console.log("Running...");
+  }, 1000);
+}
+// ❌ Interval keeps running even after leaving the page!
+// ❌ Creates multiple intervals if you return to the page!
+The Solution
+jsx
+Copy
+componentDidMount() {
+  this.timer = setInterval(() => {
+    console.log("Hello learner");
+  }, 1000);
+}
 
-export default ProductInfoShimmer;
-Installation
+componentWillUnmount() {
+  clearInterval(this.timer); // ✅ Clean up!
+}
+Scalable applications require careful cleanup of every timer, subscription, and event listener.
+6. Functional vs Class Component Comparison
+Table
+Feature	Class Component	Functional Component
+State	this.state object	useState() hooks
+Lifecycle	componentDidMount, componentDidUpdate, componentWillUnmount	useEffect() with dependency array []
+Cleanup	componentWillUnmount()	return () => {} from useEffect
+Multiple Effects	Single componentDidUpdate with if conditions	Multiple useEffect hooks
+Functional Component Cleanup Equivalent
+jsx
+Copy
+useEffect(() => {
+  const timer = setInterval(() => {
+    console.log("Hello from useEffect");
+  }, 1000);
+
+  return () => {
+    clearInterval(timer); // Cleanup function
+    console.log("useEffect cleanup");
+  };
+}, []);
+🎯 Key Takeaways
+Always call super(props) in the constructor before using this
+Never mutate state directly — always use this.setState()
+Batch your API calls in componentDidMount() after initial render
+Clean up side effects in componentWillUnmount() to prevent memory leaks
+Understand the render cycle — constructor → render → mount → update → unmount
+React batches child renders for performance optimization
+Lifecycle methods are not comparable 1:1 with hooks — they serve similar but distinct purposes
+🛠️ Tech Stack
+React (Class Components)
+JavaScript (ES6+)
+Git & GitHub
+📖 Resources
+React Lifecycle Methods Diagram
+React Official Documentation
+🚀 Getting Started
 bash
 Copy
 # Clone the repository
@@ -305,76 +189,6 @@ git clone <your-repo-url>
 # Install dependencies
 npm install
 
-# Fix any audit issues
-npm audit
-
-# Fix what can be fixed automatically
-npm audit fix
-
-# Start development server
-npm run dev
-Project Structure
-plain
-Copy
-src/
-├── components/
-│   ├── Header.jsx
-│   ├── Body.jsx
-│   ├── Product.jsx
-│   ├── ProductInfo.jsx
-│   ├── ProductInfoShimmer.jsx
-│   ├── About.jsx
-│   ├── Contact.jsx
-│   └── Error.jsx
-├── App.jsx                 # AppLayout with Outlet
-├── main.jsx                # RouterProvider setup
-└── styles/
-    ├── ProductInfoShimmer.css
-    └── App.css
-API Reference
-Open Food Facts API
-Table
-Endpoint	Description
-https://world.openfoodfacts.org/api/v2/product/{barcode}	Fetch product details by barcode
-Example Response:
-JSON
-Copy
-{
-  "product": {
-    "product_name": "Product Name",
-    "brands": "Brand Name",
-    "quantity": "500g",
-    "packaging": "Plastic",
-    "categories": "Food > Snacks",
-    "countries": "United States",
-    "image_front_small_url": "https://..."
-  }
-}
-Routing Types Explained
-Server-Side Routing (Traditional)
-plain
-Copy
-Request → Server Processes → Full HTML Sent → Browser Renders
-Every URL change sends request to server
-Server returns complete new HTML page
-Browser refreshes entire page
-Slower, more bandwidth
-Client-Side Routing (React SPA)
-plain
-Copy
-Request (First time only) → JS Loads → Subsequent Navigations stay in browser
-URL changes handled by JavaScript
-Only necessary data fetched (usually JSON)
-Page does not fully reload
-Faster navigation after initial load
-React Router DOM enables this pattern
-🎯 Key Takeaways
-useEffect behavior changes based on dependency array presence and contents
-Never break Hooks rules — always call at top level, never conditionally
-React Router DOM is the industry standard for React routing
-Outlet enables nested layouts with persistent UI elements
-Link component prevents full page reloads, keeping SPA behavior
-useParams extracts dynamic URL segments for data fetching
-Shimmer UI provides better loading experience than spinners
-License
-MIT License - feel free to use this as a learning resource or starter template.
+# Start the development server
+npm start
+Note: This project was built as a learning exercise to understand React class components

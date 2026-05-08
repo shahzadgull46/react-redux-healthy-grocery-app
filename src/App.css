@@ -66,6 +66,7 @@ ul li {
   display: flex;
   flex-wrap: wrap;
   margin: 20px;
+  justify-content: space-between;
 }
 .filter-btn{
   margin: 10px;
@@ -125,4 +126,13 @@ ul li {
 }
 .filter-container{
   display: flex;
+}
+.about-us{
+  margin:40px 20px;
+  border: 1px solid black;
+  padding: 15px;
+  
+}
+.about-us h1{
+  color: red;
 }

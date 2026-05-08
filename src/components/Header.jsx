@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const [btnNameReact, setbtnNameReact] = useState("Logout");
 
-  console.log("Header rendered");
+  // console.log("Header rendered");
 
   return (
     <div className="header">
