@@ -11,7 +11,7 @@ export const THUMBNAIL_URL=
 
 
 export const PRODUCTINFO_URL=
-"https://world.openfoodfacts.org/api/v2/product"
+"https://world.openfoodfacts.org/api/v2/product/"
 
 
   /*

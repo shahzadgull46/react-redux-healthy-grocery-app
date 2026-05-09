@@ -1,10 +1,12 @@
 
 // groData is the prop 
 import { Link } from "react-router-dom";
+
 const Product = ({ groData }) => {
   const {product_name,brands,ecoscore_grade,image_front_small_url,quantity} =groData
   
   
+
   return (
   <Link to={`/product/${groData.code}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
 

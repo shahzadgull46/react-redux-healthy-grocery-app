@@ -2,6 +2,8 @@ import Product from "./Product";
 
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
+import useOnlineStatus from "../../public/utils/useOnlineStatus";
+
 const Body = () => {
   const [allProductList, setallProductList] = useState([]);
 
@@ -29,6 +31,13 @@ const Body = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const onlineStatus = useOnlineStatus();
+  if (onlineStatus === false) {
+    return (
+      <h1>Looks like you are offline Please check your network connection</h1>
+    );
+  }
 
   return allProductList.length === 0 ? (
     <Shimmer />

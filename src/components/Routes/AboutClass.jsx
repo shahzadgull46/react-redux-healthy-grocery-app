@@ -13,10 +13,10 @@ class AboutClass extends React.Component {
   }
 
   async componentDidMount() {
-    console.log("Child component didMount")
-    this.timer =setInterval(() => {
-      console.log("Hello shahzad learner")
-    }, 1000);
+    // console.log("Child component didMount")
+    // this.timer =setInterval(() => {
+    //   console.log("Hello shahzad learner")
+    // }, 1000);
   }
   componentDidUpdate(){
    
