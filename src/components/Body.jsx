@@ -43,18 +43,19 @@ const Body = () => {
     <Shimmer />
   ) : (
     <div className="body">
-      <div className="filter-container">
-        <div className="search-container">
+      <div className="m-7 p-1 rounded-[5px] flex mt-3.5 items-center bg-blue-50">
+        <div>
           <input
             type="text"
-            className="search-box"
+            className="m-4 p-1 border-2 text-xl"
             value={searchText}
             onChange={(e) => {
               setsearchText(e.target.value);
             }}
           />
+
           <button
-            className="search-btn"
+            className="bg-[hsl(0,83%,50%)] px-7 py-3   rounded-lg text-white text-lg font-semibold cursor-pointer  hover:scale-105 hover:bg-red-600 transition-all duration-300 shadow-lg"
             onClick={() => {
               // filter products and update ui
               console.log(searchText);
@@ -71,7 +72,7 @@ const Body = () => {
         </div>
 
         <button
-          className="filter-btn"
+          className=" m-3 p-3  text-center text-white text-lg font-medium cursor-pointer bg-[hsla(98,100%,60%,0.904)] rounded-lg  hover:scale-105 transition-all duration-300 shadow-lg "
           onClick={() => {
             const filtered = allProductList.filter((product) => {
               // Get grade from either location, normalize to lowercase string
@@ -91,14 +92,14 @@ const Body = () => {
         </button>
 
         <button
-          className="filter-btn"
+          className="m-3 p-3 bg-[hsl(0,83%,50%)] rounded-lg text-white text-lg font-semibold cursor-pointer  hover:scale-105 hover:bg-red-600 transition-all duration-300 shadow-lg"
           onClick={() => setfilteredList([...allProductList])}
         >
           Show All
         </button>
       </div>
 
-      <div className="product-container">
+      <div className="grid grid-cols-4 gap-3.5 p-7 m-7 bg-slate-200">
         {filteredList.map((product) => {
           return <Product key={product.code} groData={product} />;
         })}

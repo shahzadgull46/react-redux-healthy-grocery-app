@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { PRODUCTINFO_URL } from "../../../public/utils/constants";
-import "./ProductInfo.css";
 import ProductInfoShimmer from "./ProductInfoShimmer";
 import useProductInfo from "../../../public/utils/useProductInfo";
 
@@ -25,14 +24,16 @@ const ProductInfo = () => {
     origins_tags,
     manufacturing_places,
     manufacturing_places_tags,
+    
   } = productInfo;
   return (
-    <div className="product-info-wrapper">
-      <span className="product-info-image-box">
-        <img className="product-info-img" src={image_front_small_url} alt="" />
+    <div>
+    <div className="product-info m-6  p-6 flex gap-30 bg-slate-200 rounded-[7px]">
+      <span>
+        <img className="w-125 h-100 object-contain ml-9 rounded-[10px] mt-2 " src={image_front_small_url} alt="" />
       </span>
-      <div className="product-info-details">
-        <h1 className="product-info-title">{product_name}</h1>
+      <div className="flex flex-col gap-5 ">
+        <h1 className="text-[2.6rem] ">{product_name}- {brands}-{quantity}</h1>
         {[
           { label: "Barcode", value: code },
           { label: "Quantity", value: quantity },
@@ -54,6 +55,7 @@ const ProductInfo = () => {
           </p>
         ))}
       </div>
+    </div>
     </div>
   );
 };
