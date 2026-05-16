@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { PRODUCTINFO_URL } from "../../../public/utils/constants";
 import ProductInfoShimmer from "./ProductInfoShimmer";
 import useProductInfo from "../../../public/utils/useProductInfo";
@@ -11,10 +11,24 @@ const ProductInfo = () => {
   // custom hook:
   const productInfo = useProductInfo(barcode);
 
-   const [openSection,setopenSection]=useState(null);
-   
-  const handleClick=(section)=>{
-       setopenSection(openSection===section ? null : section)
+   const [openIndex,setopenIndex]=useState(null);
+   const[manageArrow,setmanageArrow]=useState(null)
+
+  const health = productInfo ? mapHealthData(productInfo) : null;
+   const sections= health ?[
+    {key:"nutrition",title:"Nutrition",data:health.nutrition},
+    {key:"safety",title:"Safety",data:health.safety},
+    {key:"diet",title:"Diet",data:health.diet},
+    {key:"environment",title:"Environment",data:health.environment},
+
+   ]: []
+console.log(sections)
+
+
+  const handleClick=(index)=>{
+       setopenIndex(openIndex===index ? null : index)
+       setmanageArrow()
+
      }
 
   if (productInfo === null) {
@@ -73,7 +87,7 @@ const ProductInfo = () => {
 
       <div className="bg-slate-300 m-6 p-4">
         {" "}
-        <HealthCard health={mapHealthData(productInfo)} openSection={openSection} handleClick={handleClick} />
+        <HealthCard sections={sections} openIndex={openIndex} handleClick={handleClick} />
       </div>
     </div>
   );

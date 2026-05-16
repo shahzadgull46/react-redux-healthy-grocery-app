@@ -3,6 +3,7 @@ import ProductInfo from "../../../src/components/ProductData/ProductInfo";
 
 
 const mapHealthData = (product) => {
+  if (!product) return {};
   return {
     nutrition: getNutrition(product),
     safety: getSafety(product),

@@ -1,83 +1,71 @@
+const HealthCard = ({ sections, openIndex, handleClick }) => {
+  if (!sections || sections.length === 0) return <p>Loading...</p>;
 
-const HealthCard = ({ health,openSection,handleClick }) => {
+  // helper function
+  const renderObjectData = (data) => (
+    <div>
+      {Object.entries(data || {}).map(([key, value]) => (
+        <div
+          key={key}
+          className="font-bold p-4 my-4 mx-10 bg-slate-100 rounded-lg "
+        >
+          <p>
+            <b>{key}:</b> {value}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
 
+  const renderSectionData = (section) => {
+    if (section.key === "nutrition") {
+      return renderObjectData(section.data);
+      
+    }
+
+    if (section.key === "safety") {
+      return renderObjectData(section.data);
+    }
+
+    if (section.key === "environment") {
+      return renderObjectData(section.data);
+    }
+
+    if (section.key === "diet") {
+      return (
+        <div>
+          <p>
+            <b>Vegan:</b> {section.data?.vegan ? "Yes" : "No"}
+          </p>
+          <p>
+            <b>Vegetarian:</b> {section.data?.vegetarian ? "Yes" : "No"}
+          </p>
+        </div>
+      );
+    }
+
+    return <p>No data</p>;
+  };
   return (
     <div>
-      <h1 className="text-4xl font-bold p-4 my-3.5 mx-46" >Health</h1>
-  
+      <h1 className="text-4xl font-bold p-4 my-3.5 mx-46">Health</h1>
 
-      <div className="font-bold p-4 my-4 mx-10 text-2xl bg-slate-100 rounded-lg "onClick={()=>handleClick("nutrition")}>
-        
-        <div className="flex justify-between cursor-pointer">
-        <span >1. Nutrition </span>
-        <span>▼</span>
-        </div>
-        {openSection==="nutrition" ? <div className="p-4  mx-10 text-lg " >
-        
-        <p><b>Energy: </b> {health?.nutrition.energy}</p>
-        <p><b>Fat: </b>{health?.nutrition.fat}</p>
-        <p><b>Grade: </b> {health?.nutrition.grade}</p>
-        <p><b>Protein: </b>{health?.nutrition.protein}</p>
-        <p><b>Salt: </b> {health?.nutrition.salt}</p>
-        <p><b>Sugar: </b> {health?.nutrition.sugar}</p>
-        
-        </div> : null}
-        </div>
-        <div  className="font-bold p-4 my-4 mx-10 text-2xl bg-slate-100 rounded-lg "  onClick={()=>handleClick("safety")}>
-          
+      {sections.map((section, index) => (
+        <div
+          key={index}
+          className="font-bold p-4 my-4 mx-10 text-2xl bg-slate-100 rounded-lg cursor-pointer"
+          onClick={() => handleClick(index)}
+        >
           <div className="flex justify-between cursor-pointer">
-            <span>2. Safety</span>
-             <span>▼</span>
+            <span>{section.title}</span>
+            <span className="flex justify-between"> ⇓</span>
           </div>
-          {openSection==="safety" ? 
-          <div className="p-4  mx-10 text-lg " >
-            <p><b>Additives:</b>{health?.safety?.additives}</p>
-            <p><b>Allergens:</b>{health?.safety?.allergens}</p>
-           </div>
-           : null}
-           
-
+          <div className="  mx-10 text-lg ">
+            {openIndex === index && <div>{renderSectionData(section)}</div>}
+          </div>
         </div>
-        
-         <div  className="font-bold p-4 my-4 mx-10 text-2xl bg-slate-100 rounded-lg " onClick={()=>handleClick("diet")}>
-
-            <div className="flex justify-between cursor-pointer">
-                <span>3. Diet</span>
-                 <span>▼</span>
-
-            </div>
-              {openSection==="diet" ?
-              <div className="p-4  mx-10 text-lg " >
-               <p><b>Vegan: </b> { health?.diet.vegan===true ?"Yes" : "No" }</p> 
-               <p><b>Vegetarian: </b>{ health?.diet.vegetarian===true ?"Yes" : "No" }</p>
-                
-              </div>
-              : null }
-              
-         </div>
-
-
-      <div  className="font-bold p-4 my-4 mx-10 text-2xl bg-slate-100 rounded-lg " onClick={()=>handleClick("environment")}>
-
-            <div className="flex justify-between cursor-pointer">
-                <span>4. Environment</span>
-                 <span>▼</span>
-
-            </div >
-            {openSection==="environment" ?
-            <div className="p-4  mx-10 text-lg " >
-              <p><b>Ecoscore: </b>{health?.environment.ecoscore}</p>
-              <p><b>Ecoscore_Grade: </b>{health?.environment.ecoscore_grade}</p>
-              <p><b>Packaging: </b>{health?.environment.packaging}</p>
-              </div> 
-              : null }
-       
-              
-         </div>
-
-
-      </div>
-    
+      ))}
+    </div>
   );
 };
 
