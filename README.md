@@ -3,6 +3,12 @@
 A modern React application that allows users to explore healthy food products, view detailed nutritional information, and manage a grocery list using **Redux Toolkit** and the **OpenFoodFacts API**.
 
 ---
+## 🌐 Deployment
+
+The application is deployed on Vercel:
+
+**Live Demo:**  
+https://react-redux-healthy-grocery-app-kvy.vercel.app
 
 ## 🚀 Features
 
