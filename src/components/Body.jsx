@@ -6,6 +6,7 @@ import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/userContext";
 import { useContext } from "react";
 
+
 const Body = () => {
   const [allProductList, setallProductList] = useState([]);
 
@@ -43,7 +44,8 @@ const Body = () => {
   }
 
   const {setuserName,loggedInUser} = useContext(UserContext)
-  return allProductList.length === 0 ? (
+console.log("filtered length:", filteredList.length);
+console.log("search:", searchText);  return allProductList.length === 0 ? (
     <Shimmer />
   ) : (
 

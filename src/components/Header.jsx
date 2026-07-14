@@ -29,7 +29,12 @@ const Header = () => {
         <ul className="flex items-center justify-end gap-1.5 m-3 p-4 ">
           <li className="px-4 text-white text-lg font-medium hover:scale-105 transition-all duration-300"> Online Status: {onlineStatus ? " ✅" : "🔴"  }</li>
           <li className="px-4 text-white text-lg font-medium hover:scale-105 transition-all duration-300 ">
-            <Link to="/">Home</Link>
+          <Link 
+  to="/" 
+  onClick={() => window.location.reload()}
+>
+  Home
+</Link>
           </li>
           <li className="px-4 text-white text-lg font-medium hover:scale-105 transition-all duration-300">
             <Link to="/grocery">Grocery List🛒({grocery.length})</Link>
