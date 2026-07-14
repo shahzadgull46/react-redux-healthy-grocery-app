@@ -1,12 +1,12 @@
-import { LOGO_URL } from "../../public/utils/constants";
+import { LOGO_URL } from "../utils/constants";
+import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/userContext";
 
 import { useState } from "react";
 
 import { Link } from "react-router-dom";
-import useOnlineStatus from "../../public/utils/useOnlineStatus";
 
 import { useContext } from "react";
-import UserContext from "../../public/utils/userContext";
 import { useSelector } from "react-redux";
 const Header = () => {
   const [btnNameReact, setbtnNameReact] = useState("Logout");

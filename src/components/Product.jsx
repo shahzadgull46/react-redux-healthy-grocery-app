@@ -1,9 +1,9 @@
 // groData is the prop
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import UserContext from "../../public/utils/userContext";
+import UserContext from "../utils/userContext";
+import { addItems } from "../utils/store/grocerySlice";
 import { useDispatch } from "react-redux";
-import { addItems } from "../../public/utils/store/grocerySlice";
 const Product = ({ groData, preference }) => {
   const { product_name, brands, image_front_small_url, quantity } = groData;
 

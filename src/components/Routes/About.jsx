@@ -13,8 +13,7 @@
 //     )
 // }
 
-import UserContext from "../../../public/utils/userContext";
-import AboutClass from "./AboutClass";
+import UserContext from "../../utils/userContext";import AboutClass from "./AboutClass";
 import React from "react";
 
 class About extends React.Component {

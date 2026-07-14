@@ -35,7 +35,7 @@ The question is how i will import it?
   There would be a slight difference in import 
   You have to write it in { } curly braces
 
-  import { LOGO_URL } from "../../public/utils/constants";
+import { LOGO_URL } from "../utils/constants";
 
   if we have used default export then we don't use curly braces in import
   how to use this:

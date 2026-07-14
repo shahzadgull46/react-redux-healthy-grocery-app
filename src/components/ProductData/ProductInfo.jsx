@@ -1,9 +1,9 @@
 import {  useParams } from "react-router-dom";
-import { PRODUCTINFO_URL } from "../../../public/utils/constants";
 import ProductInfoShimmer from "./ProductInfoShimmer";
-import useProductInfo from "../../../public/utils/useProductInfo";
 import HealthCard from "./HealthCard";
-import mapHealthData from "../../../public/utils/Mapper.jsx/healthMapper";
+import { PRODUCTINFO_URL } from "../../utils/constants";
+import useProductInfo from "../../utils/useProductInfo";
+import mapHealthData from "../../utils/Mapper.jsx/healthMapper";
 import { useState } from "react";
 
 const ProductInfo = () => {

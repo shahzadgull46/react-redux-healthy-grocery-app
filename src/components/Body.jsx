@@ -2,8 +2,8 @@ import Product, { withPreferenceLabel } from "./Product";
 
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
-import useOnlineStatus from "../../public/utils/useOnlineStatus";
-import UserContext from "../../public/utils/userContext";
+import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/userContext";
 import { useContext } from "react";
 
 const Body = () => {

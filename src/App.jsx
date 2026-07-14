@@ -12,10 +12,10 @@ import ProductInfo from "./components/ProductData/ProductInfo.jsx";
 // import UserProfile from "./components/UserProfile.jsx";
 import { lazy, Suspense, useEffect, useState } from "react";
 
-import UserContext from "../public/utils/userContext.jsx";
 import { Provider } from "react-redux";
-import appStore from "../public/utils/store/appStore.jsx";
-import GroceryList from "../public/utils/store/GroceryList.jsx";
+import userContext from "./utils/userContext.jsx";
+import appStore from "./utils/store/appStore.jsx";
+import GroceryList from "./utils/store/GroceryList.jsx";
 
 const UserProfile = lazy(() => import("./components/UserProfile.jsx"));
 const About = lazy(() => import("./components/Routes/About.jsx"));
