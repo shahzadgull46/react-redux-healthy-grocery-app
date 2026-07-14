@@ -3,6 +3,8 @@ import Product, { withPreferenceLabel } from "./Product";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import useOnlineStatus from "../../public/utils/useOnlineStatus";
+import UserContext from "../../public/utils/userContext";
+import { useContext } from "react";
 
 const Body = () => {
   const [allProductList, setallProductList] = useState([]);
@@ -40,9 +42,11 @@ const Body = () => {
     );
   }
 
+  const {setuserName,loggedInUser} = useContext(UserContext)
   return allProductList.length === 0 ? (
     <Shimmer />
   ) : (
+
     <div className="body">
       <div className="m-7 p-1 rounded-[5px] flex mt-3.5 items-center bg-blue-50">
         <div>
@@ -98,10 +102,17 @@ const Body = () => {
         >
           Show All
         </button>
+        <div className=" m-3 p-3  text-center  text-lg font-medium cursor-pointer rounded-lg  ">
+         <label htmlFor="User Name">User Name:
+          <input type="text" className="m-4 p-1 border-2 text-xl" value={loggedInUser}
+          onChange={(e)=>setuserName(e.target.value)} />
+
+          </label>
+        </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-3.5 p-7 m-7 bg-slate-200">
-        {filteredList.map((product) => {
+<div className="grid grid-cols-[repeat(auto-fit,minmax(290px,1fr))] gap-6 p-7 m-7 bg-slate-200">
+          {filteredList.map((product) => {
           //Show default preference per to product card
 
           return <EnhancedProduct key={product.code} groData={product} />;

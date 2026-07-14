@@ -1,6 +1,6 @@
 const Shimmer = () => {
   const cards = [];
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 40; i++) {
     cards.push(<div key={i} className="w-60  h-70 bg-white p-3.5 m-4"></div>);
   }
 

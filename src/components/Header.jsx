@@ -5,12 +5,19 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../../public/utils/useOnlineStatus";
 
-
+import { useContext } from "react";
+import UserContext from "../../public/utils/userContext";
+import { useSelector } from "react-redux";
 const Header = () => {
   const [btnNameReact, setbtnNameReact] = useState("Logout");
 
   const onlineStatus = useOnlineStatus()
 
+  const {loggedInUser} = useContext(UserContext)
+  // console.log(loggedInUser)
+  // Subsrcibing to the store using selector
+  const grocery = useSelector((store)=>store.grocery.items)
+  console.log(grocery)
   return (
 
     <div className="h-25 bg-blue-900 flex items-center px-6 justify-between">
@@ -25,12 +32,13 @@ const Header = () => {
             <Link to="/">Home</Link>
           </li>
           <li className="px-4 text-white text-lg font-medium hover:scale-105 transition-all duration-300">
-            <Link to="/contact">Contact</Link>
+            <Link to="/grocery">Grocery List🛒({grocery.length})</Link>
           </li>
           <li className="px-4 text-white text-lg font-medium hover:scale-105 transition-all duration-300">
             <Link to="/about">About us</Link>
           </li>
           <li className="px-4 text-white text-lg font-medium hover:scale-105 transition-all duration-300"> <Link to=  "/userprofile">User Profile</Link></li>
+          <li className="px-4 text-white text-lg font-medium hover:scale-105 transition-all duration-300"> <Link to=  "/userprofile">{loggedInUser}</Link></li>
 
           <button
            className="px-4 text-white text-lg font-medium cursor-pointer bg-[hsla(98,100%,60%,0.904)] rounded-xl w-23 h-10  hover:scale-105 transition-all duration-300 shadow-lg " 
