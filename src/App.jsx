@@ -32,12 +32,12 @@ const Applayout = () => {
 
   return (
     <Provider store={appStore}>
-    <UserContext.Provider value={{ loggedInUser: userName, setuserName}}>
+    <userContext.Provider value={{ loggedInUser: userName, setuserName}}>
       <div className="app">
         <Header />
         <Outlet />
       </div>
-    </UserContext.Provider>
+    </userContext.Provider>
     </Provider>
   );
 };
